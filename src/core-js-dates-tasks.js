@@ -78,11 +78,11 @@ function getDayName(date) {
  * Date('2024-02-16T00:00:00Z') => Date('2024-02-23T00:00:00Z')
  */
 function getNextFriday(date) {
-  const dayIndex = date.getDay();
-  const daysToAdd = (7 - dayIndex + 5) % 7;
-  const nextFriday = new Date(date);
-  nextFriday.setDate(date.getDate() + daysToAdd);
-  return nextFriday;
+  const dateStr = new Date(date);
+  const dayOfWeek = dateStr.getDay();
+  const daysToAdd = dayOfWeek > 5 ? 12 - dayOfWeek : 5 - dayOfWeek;
+  dateStr.setDate(dateStr.getDate() + daysToAdd);
+  return dateStr.toISOString();
 }
 
 /**
