@@ -78,11 +78,11 @@ function getDayName(date) {
  * Date('2024-02-16T00:00:00Z') => Date('2024-02-23T00:00:00Z')
  */
 function getNextFriday(date) {
-  const dateStr = new Date(date);
-  const dayOfWeek = dateStr.getDay();
+  const dateObj = new Date(date);
+  const dayOfWeek = dateObj.getDay();
   const daysToAdd = dayOfWeek > 5 ? 12 - dayOfWeek : 5 - dayOfWeek;
-  dateStr.setDate(dateStr.getDate() + daysToAdd);
-  return dateStr.toISOString();
+  dateObj.setDate(dateObj.getDate() + daysToAdd);
+  return dateObj.toISOString().substring(0, 10);
 }
 
 /**
@@ -155,18 +155,20 @@ function isDateInPeriod(date, period) {
  * '1999-01-05T02:20:00.000Z' => '1/5/1999, 2:20:00 AM'
  * '2010-12-15T22:59:00.000Z' => '12/15/2010, 10:59:00 PM'
  */
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const year = date.getFullYear();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
-  const amOrPm = hours >= 12 ? 'PM' : 'AM';
-  const formattedHours = hours % 12 || 12;
-  const formattedDate = `${month}/${day}/${year}, ${formattedHours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${amOrPm}`;
-  return formattedDate;
+function formatDate(date) {
+  const dateObj = new Date(date);
+
+  const day = String(dateObj.getDate()).padStart(2, '0');
+  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const year = String(dateObj.getFullYear()).slice(-2);
+
+  let hours = dateObj.getHours();
+  const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+  const seconds = String(dateObj.getSeconds()).padStart(2, '0');
+  const meridian = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12;
+
+  return `${month}/${day}/${year}, ${hours}:${minutes}:${seconds} ${meridian}`;
 }
 
 /**
