@@ -82,7 +82,7 @@ function getNextFriday(date) {
   const dayOfWeek = dateObj.getDay();
   const daysToAdd = dayOfWeek > 5 ? 12 - dayOfWeek : 5 - dayOfWeek;
   dateObj.setDate(dateObj.getDate() + daysToAdd);
-  return dateObj.toISOString().substring(0, 10);
+  return dateObj;
 }
 
 /**
